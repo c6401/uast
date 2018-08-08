@@ -14,9 +14,9 @@ def translate_expression(expression):  # type: (Expr) -> ULambdaType
         return lambda scope: scope[expression.args[0]]
 
     args = [translate(arg) for arg in expression.args]
-    return lambda scope: operators[
-        expression.symbol
-    ].operator(*(a(scope) for a in args))
+    operator = operators[expression.symbol].operator
+
+    return lambda scope: operator(*(a(scope) for a in args))
 
 
 def translate_list(list_):  # type: (list) -> ULambdaType
@@ -47,13 +47,13 @@ def translate(expression):  # type: (Expr) -> ULambdaType
 
 
 def run(expression, x=None, y=None, z=None, **scope):
-        if x:
-            scope.update(x=x)
-        if y:
-            scope.update(y=y)
-        if z:
-            scope.update(z=z)
-        return translate(expression)(scope)
+    if x is not None:
+        scope.update(x=x)
+    if y is not None:
+        scope.update(y=y)
+    if z is not None:
+        scope.update(z=z)
+    return translate(expression)(scope)
 
 
 class Lambda(ExprBuilder):
