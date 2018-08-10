@@ -4,7 +4,7 @@ from enum import Enum
 
 Symbol = Enum('Symbol', [
     'GETATTR', 'GETITEM', 'AND', 'OR', 'NOT', 'ADD', 'SUB', 'MUL', 'DIV', 'EQ',
-    'GT', 'GE', 'LT', 'LE', 'VAR',
+    'GT', 'GE', 'LT', 'LE', 'CONTAINS', 'CALL', 'VAR',
 ])
 
 
@@ -13,7 +13,7 @@ Operator = namedtuple('Operator', ['symbol', 'format', 'operator', 'method'])
 
 operators = {
     Symbol.GETATTR: Operator(
-        Symbol.GETATTR, '{0!r}.{1!r}', getattr, '__getattr__'),
+        Symbol.GETATTR, '{0!r}.{1}', getattr, '__getattr__'),
     Symbol.GETITEM: Operator(
         Symbol.GETITEM, '{0!r}["{1!r}"]', operator.getitem, '__getitem__'),
     Symbol.AND: Operator(Symbol.AND, '{0!r} and {1!r}', operator.and_, None),
@@ -29,5 +29,14 @@ operators = {
     Symbol.GE: Operator(Symbol.GE, '{0!r} >= {1!r}', operator.ge, '__ge__'),
     Symbol.LT: Operator(Symbol.LT, '{0!r} < {1!r}', operator.lt, '__lt__'),
     Symbol.LE: Operator(Symbol.LE, '{0!r} <= {1!r}', operator.le, '__le__'),
-    Symbol.VAR: Operator(Symbol.VAR, '{0!r}', None, None),
+    Symbol.VAR: Operator(Symbol.VAR, '{0}', None, None),
+    Symbol.CONTAINS: Operator(
+        Symbol.CONTAINS, '{1!r} in {0!r}', operator.contains, '__contains__'),
 }
+
+r_methods = [
+    ('__radd__', Symbol.ADD),
+    ('__rsub__', Symbol.SUB),
+    ('__rmul__', Symbol.MUL),
+    ('__rtruediv__', Symbol.DIV),
+]

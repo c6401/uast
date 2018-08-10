@@ -60,6 +60,9 @@ class Lambda(ExprBuilder):
     def __call__(self, x=None, y=None, z=None, **scope):
         return run(self, x, y, x, **scope)
 
+    def contains(self, other):
+        return type(self)(S.CONTAINS, self, other)
+
 
 x = Lambda(S.VAR, 'x')
 y = Lambda(S.VAR, 'y')
