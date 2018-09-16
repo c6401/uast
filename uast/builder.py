@@ -30,3 +30,7 @@ for _method, _symbol in r_methods:
 x = ExprBuilder(S.VAR, 'x')
 y = ExprBuilder(S.VAR, 'y')
 z = ExprBuilder(S.VAR, 'z')
+
+
+def contains(expression, item):
+    return type(expression)(S.CONTAINS, expression, item)

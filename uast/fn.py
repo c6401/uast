@@ -1,4 +1,4 @@
-from uast.builder import ExprBuilder
+from uast.builder import ExprBuilder, contains
 from uast.expression import Expr
 from uast.symbols import Symbol as S, operators
 
@@ -64,9 +64,6 @@ def run(expression, x=Undefined, y=Undefined, z=Undefined, **scope):
 class Lambda(ExprBuilder):
     def __call__(self, x=None, y=None, z=None, **scope):
         return run(self, x, y, x, **scope)
-
-    def contains(self, other):
-        return type(self)(S.CONTAINS, self, other)
 
 
 x = Lambda(S.VAR, 'x')
