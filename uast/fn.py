@@ -1,6 +1,6 @@
 from uast.builder import ExprBuilder, contains
 from uast.expression import Expr
-from uast.symbols import Symbol as S, operators
+from uast.symbols import Symbol as S, operator_map
 
 from typing import Callable, Any
 
@@ -14,7 +14,7 @@ def translate_expression(expression):  # type: (Expr) -> ULambdaType
         return lambda scope: scope[expression.args[0]]
 
     args = [translate(arg) for arg in expression.args]
-    operator = operators[expression.symbol].operator
+    operator = operator_map[expression.symbol].operator
 
     return lambda scope: operator(*(arg(scope) for arg in args))
 

@@ -18,7 +18,7 @@ def _r_method_factory(symbol):
         return type(self)(symbol, other, self)
     return func
 
-for _operator in operators.values():
+for _operator in operators:
     if not _operator.method:
         continue
     setattr(ExprBuilder, _operator.method, _method_factory(_operator.symbol))
@@ -27,10 +27,10 @@ for _method, _symbol in r_methods:
     setattr(ExprBuilder, _method, _r_method_factory(_symbol))
 
 
+def contains(expression, item):
+    return type(expression)(S.CONTAINS, expression, item)
+
+
 x = ExprBuilder(S.VAR, 'x')
 y = ExprBuilder(S.VAR, 'y')
 z = ExprBuilder(S.VAR, 'z')
-
-
-def contains(expression, item):
-    return type(expression)(S.CONTAINS, expression, item)
