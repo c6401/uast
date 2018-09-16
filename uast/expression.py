@@ -13,5 +13,5 @@ class Expr:
     def __repr__(self):
         operator = operators[self.symbol]
         if operator.format:
-            return '({})'.format(operator.format.format(*self.args))
+            return '{}'.format(operator.format.format(*self.args))
         return super(Expr, self).__repr__()

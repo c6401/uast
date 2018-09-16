@@ -16,7 +16,7 @@ def translate_expression(expression):  # type: (Expr) -> ULambdaType
     args = [translate(arg) for arg in expression.args]
     operator = operators[expression.symbol].operator
 
-    return lambda scope: operator(*(a(scope) for a in args))
+    return lambda scope: operator(*(arg(scope) for arg in args))
 
 
 def translate_list(list_):  # type: (list) -> ULambdaType
@@ -39,19 +39,24 @@ def translate(expression):  # type: (Expr) -> ULambdaType
         return translate_expression(expression)
     elif isinstance(expression, list):
         return translate_list(expression)
-    elif isinstance(translate, tuple):
+    elif isinstance(expression, tuple):
         return translate_tuple(expression)
     elif isinstance(expression, dict):
         return translate_dict(expression)
     return lambda scope: expression
 
 
-def run(expression, x=None, y=None, z=None, **scope):
-    if x is not None:
+class Undefined:
+    """Undefined is internal class to show abcence of value 
+    since 'None' is a value in terms of Micro AST."""
+
+
+def run(expression, x=Undefined, y=Undefined, z=Undefined, **scope):
+    if x is not Undefined:
         scope.update(x=x)
-    if y is not None:
+    if y is not Undefined:
         scope.update(y=y)
-    if z is not None:
+    if z is not Undefined:
         scope.update(z=z)
     return translate(expression)(scope)
 
