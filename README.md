@@ -1,4 +1,4 @@
-# Micro Ast (alfa version)
+# Micro Ast (alpha version)
 
 Lighweight implementation of custom AST to represent python expression structure
 ```
